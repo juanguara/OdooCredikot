@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Vistas del modelo crm.soap.log -->
+  <record id="view_crm_soap_log_tree" model="ir.ui.view">
+    <field name="name">crm.soap.log.tree</field>
+    <field name="model">crm.soap.log</field>
+    <field name="arch" type="xml">
+      <tree string="Logs (SOAP Hook)" create="0" edit="0" delete="0">
+        <field name="create_date"/>
+        <field name="level"/>
+        <field name="url"/>
+        <field name="status_code"/>
+        <field name="is_won"/>
+        <field name="riepedid"/>
+        <field name="riepedinfrespcod"/>
+        <field name="logica_cambio"/>
+        <field name="message"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="view_crm_soap_log_search" model="ir.ui.view">
+    <field name="name">crm.soap.log.search</field>
+    <field name="model">crm.soap.log</field>
+    <field name="arch" type="xml">
+      <search string="Buscar Logs SOAP">
+        <field name="message"/>
+        <field name="level"/>
+        <field name="url"/>
+        <field name="riepedid"/>
+        <field name="is_won"/>
+        <filter name="ok" string="HTTP 200" domain="[('status_code','=',200)]"/>
+        <filter name="errors" string="Errores" domain="[('level','=','ERROR')]"/>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_crm_soap_log" model="ir.actions.act_window">
+    <field name="name">Logs (SOAP Hook)</field>
+    <field name="res_model">crm.soap.log</field>
+    <field name="view_mode">list,form</field>
+    <field name="context">{}</field>
+  </record>
+
+  <!-- Menú en Ajustes (Administración) -->
+  <menuitem id="menu_crm_soap_log" name="Logs (SOAP Hook)"
+            parent="base.menu_administration" action="action_crm_soap_log"
+            groups="base.group_system" sequence="999"/>
+</odoo>
