@@ -1,15 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+  <!-- Vista: bloque de configuración del hook SOAP en Ajustes (Odoo 18) -->
   <record id="view_res_config_settings_crm_soap_state" model="ir.ui.view">
     <field name="name">res.config.settings.view.form.crm.soap.state</field>
     <field name="model">res.config.settings</field>
     <field name="inherit_id" ref="base.res_config_settings_view_form"/>
     <field name="arch" type="xml">
-      <!-- Insertamos un bloque propio en el formulario de Ajustes -->
+      <!-- Insertar dentro del <form>. En Odoo 18 no existe //div[@id='settings'] -->
       <xpath expr="//form" position="inside">
         <div class="app_settings_block"
-             data-string="CRM Ganado/Perdido - SOAP Legacy"
              string="CRM Ganado/Perdido - SOAP Legacy"
+             data-string="CRM Ganado/Perdido - SOAP Legacy"
              data-key="crm"
              groups="base.group_system">
 
@@ -29,7 +30,10 @@
           <div class="row mt16">
             <div class="col-12 col-lg-6">
               <label for="crm_soap_url"/>
-              <div><field name="crm_soap_url" placeholder="http://IP:PUERTO/aRiesgoSeguimientoMsgAdd_2_WS.aspx"/></div>
+              <div>
+                <field name="crm_soap_url"
+                       placeholder="http://IP:PUERTO/aRiesgoSeguimientoMsgAdd_2_WS.aspx"/>
+              </div>
             </div>
             <div class="col-12 col-lg-2">
               <label for="crm_soap_timeout"/>
@@ -39,28 +43,42 @@
               <label for="crm_soap_usucod"/>
               <div><field name="crm_soap_usucod"/></div>
             </div>
+            <div class="col-12 col-lg-2">
+              <label for="crm_soap_logica_cambio"/>
+              <div>
+                <field name="crm_soap_logica_cambio"
+                       widget="selection"
+                       options="{'no_create': True}"/>
+              </div>
+            </div>
           </div>
 
           <div class="row mt16">
             <div class="col-12 col-lg-3">
               <label for="crm_soap_riepedinfrespcod_won"/>
-              <div><field name="crm_soap_riepedinfrespcod_won" placeholder="OP-A-LIQ"/></div>
+              <div>
+                <field name="crm_soap_riepedinfrespcod_won"
+                       placeholder="Código GANADO (p.ej. OP-A-LIQ)"/>
+              </div>
             </div>
             <div class="col-12 col-lg-3">
               <label for="crm_soap_riepedinfrespcod_lost"/>
-              <div><field name="crm_soap_riepedinfrespcod_lost" placeholder="DE"/></div>
+              <div>
+                <field name="crm_soap_riepedinfrespcod_lost"
+                       placeholder="Código PERDIDO (p.ej. DE)"/>
+              </div>
             </div>
             <div class="col-12 col-lg-3">
               <label for="crm_soap_msg_won"/>
-              <div><field name="crm_soap_msg_won" placeholder="Oportunidad Ganada"/></div>
+              <div><field name="crm_soap_msg_won" placeholder="Mensaje Ganado"/></div>
             </div>
             <div class="col-12 col-lg-3">
               <label for="crm_soap_msg_lost"/>
-              <div><field name="crm_soap_msg_lost" placeholder="Oportunidad Perdida"/></div>
+              <div><field name="crm_soap_msg_lost" placeholder="Mensaje Perdido"/></div>
             </div>
           </div>
 
-          <h3 class="mt24">Logging a fichero</h3>
+          <h3 class="mt24">Logging</h3>
           <div class="row mt8">
             <div class="col-12 col-lg-3">
               <label for="crm_soap_log_enable"/>
@@ -79,6 +97,7 @@
               <div><field name="crm_soap_log_snippet_len"/></div>
             </div>
           </div>
+
           <div class="row mt8">
             <div class="col-12 col-lg-3">
               <label for="crm_soap_log_mask_usucod"/>
@@ -103,7 +122,10 @@
           </div>
 
           <div class="mt16 text-muted">
-            <p>El <code>Riepedid</code> se toma de <code>x_studio_solicitud</code> en la oportunidad.</p>
+            <p>
+              El <code>Riepedid</code> se toma de <code>x_studio_solicitud</code> en la oportunidad. <br/>
+              <code>LogicaCambioEstado</code> por defecto: <b>U</b> (según el WSDL acepta X / U / M).
+            </p>
           </div>
 
         </div>
