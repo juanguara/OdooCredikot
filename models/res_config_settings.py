@@ -1,102 +1,123 @@
-# placeholder res_config_settings
-# -*- coding: utf-8 -*-
-from odoo import api, fields, models
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <!-- Vista: bloque de configuración del hook SOAP en Ajustes -->
+  <record id="view_res_config_settings_crm_soap_state" model="ir.ui.view">
+    <field name="name">res.config.settings.view.form.crm.soap.state</field>
+    <field name="model">res.config.settings</field>
+    <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+    <field name="arch" type="xml">
+      <!-- Odoo 18: insertar dentro del <form>, no usar //div[@id='settings'] -->
+      <xpath expr="//form" position="inside">
+        <div class="app_settings_block"
+             string="CRM Ganado/Perdido - SOAP Legacy"
+             data-string="CRM Ganado/Perdido - SOAP Legacy"
+             data-key="crm"
+             groups="base.group_system">
 
+          <h2>CRM Ganado/Perdido - Llamada SOAP</h2>
 
-class ResConfigSettings(models.TransientModel):
-    _inherit = "res.config.settings"
+          <div class="row mt16">
+            <div class="col-12 col-lg-4">
+              <label for="crm_soap_enable"/>
+              <div><field name="crm_soap_enable"/></div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <label for="crm_lost_stage_id"/>
+              <div><field name="crm_lost_stage_id" options="{'no_open': True}"/></div>
+            </div>
+          </div>
 
-    # Habilitar/Deshabilitar integración
-    crm_soap_enable = fields.Boolean(
-        string="Habilitar SOAP (Won/Lost)",
-        config_parameter="crm_soap_state_hook.enable",
-        default=True,
-    )
+          <div class="row mt16">
+            <div class="col-12 col-lg-6">
+              <label for="crm_soap_url"/>
+              <div><field name="crm_soap_url" placeholder="http://IP:PUERTO/aRiesgoSeguimientoMsgAdd_2_WS.aspx"/></div>
+            </div>
+            <div class="col-12 col-lg-2">
+              <label for="crm_soap_timeout"/>
+              <div><field name="crm_soap_timeout"/></div>
+            </div>
+            <div class="col-12 col-lg-2">
+              <label for="crm_soap_usucod"/>
+              <div><field name="crm_soap_usucod"/></div>
+            </div>
+            <div class="col-12 col-lg-2">
+              <label for="crm_soap_logica_cambio"/>
+              <div>
+                <field name="crm_soap_logica_cambio"
+                       widget="selection"
+                       options="{'no_create': True}"/>
+              </div>
+            </div>
+          </div>
 
-    # Parámetros SOAP
-    crm_soap_url = fields.Char(
-        string="URL SOAP",
-        config_parameter="crm_soap_state_hook.url",
-        default="http://119.8.77.187:8080/aRiesgoSeguimientoMsgAdd_2_WS.aspx",
-    )
-    crm_soap_timeout = fields.Integer(
-        string="Timeout (s)",
-        config_parameter="crm_soap_state_hook.timeout",
-        default=15,
-    )
-    crm_soap_usucod = fields.Char(
-        string="Usucod",
-        config_parameter="crm_soap_state_hook.usucod",
-        default="38",
-    )
-    crm_soap_riepedinfrespcod_won = fields.Char(
-        string="Cód. Respuesta (Won)",
-        config_parameter="crm_soap_state_hook.riepedinfrespcod_won",
-        default="OP-A-LIQ",
-    )
-    crm_soap_riepedinfrespcod_lost = fields.Char(
-        string="Cód. Respuesta (Lost)",
-        config_parameter="crm_soap_state_hook.riepedinfrespcod_lost",
-        default="DE",
-    )
-    crm_soap_msg_won = fields.Char(
-        string="Mensaje (Won)",
-        config_parameter="crm_soap_state_hook.msg_won",
-        default="Oportunidad Ganada",
-    )
-    crm_soap_msg_lost = fields.Char(
-        string="Mensaje (Lost)",
-        config_parameter="crm_soap_state_hook.msg_lost",
-        default="Oportunidad Perdida",
-    )
+          <div class="row mt16">
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_riepedinfrespcod_won"/>
+              <div><field name="crm_soap_riepedinfrespcod_won" placeholder="Código GANADO (p.ej. OP-A-LIQ)"/></div>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_riepedinfrespcod_lost"/>
+              <div><field name="crm_soap_riepedinfrespcod_lost" placeholder="Código PERDIDO (p.ej. DE)"/></div>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_msg_won"/>
+              <div><field name="crm_soap_msg_won" placeholder="Mensaje Ganado"/></div>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_msg_lost"/>
+              <div><field name="crm_soap_msg_lost" placeholder="Mensaje Perdido"/></div>
+            </div>
+          </div>
 
-    # (Opcional) Etapa considerada Lost (para atajos o validaciones)
-    crm_lost_stage_id = fields.Many2one(
-        "crm.stage",
-        string="Etapa Perdida (opcional)",
-        config_parameter="crm_soap_state_hook.lost_stage_id",
-    )
+          <h3 class="mt24">Logging</h3>
+          <div class="row mt8">
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_log_enable"/>
+              <div><field name="crm_soap_log_enable"/></div>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_log_payload"/>
+              <div><field name="crm_soap_log_payload"/></div>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_log_response"/>
+              <div><field name="crm_soap_log_response"/></div>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_log_snippet_len"/>
+              <div><field name="crm_soap_log_snippet_len"/></div>
+            </div>
+          </div>
 
-    # Flags de logging a fichero
-    crm_soap_log_enable = fields.Boolean(
-        string="Log en fichero",
-        config_parameter="crm_soap_state_hook.log.enable",
-        default=True,
-    )
-    crm_soap_log_payload = fields.Boolean(
-        string="Incluir Payload en log",
-        config_parameter="crm_soap_state_hook.log.payload",
-        default=True,
-    )
-    crm_soap_log_response = fields.Boolean(
-        string="Incluir Respuesta en log",
-        config_parameter="crm_soap_state_hook.log.response",
-        default=True,
-    )
-    crm_soap_log_snippet_len = fields.Integer(
-        string="Tamaño snippet",
-        config_parameter="crm_soap_state_hook.log.snippet_len",
-        default=600,
-    )
-    crm_soap_log_mask_usucod = fields.Boolean(
-        string="Enmascarar Usucod en log",
-        config_parameter="crm_soap_state_hook.log.mask_usucod",
-        default=True,
-    )
+          <div class="row mt8">
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_log_mask_usucod"/>
+              <div><field name="crm_soap_log_mask_usucod"/></div>
+            </div>
+          </div>
 
-    # Logging a Base de Datos (menú Logs (SOAP Hook))
-    crm_soap_log_db_enable = fields.Boolean(
-        string="Log en Base de Datos",
-        config_parameter="crm_soap_state_hook.log.db.enable",
-        default=True,
-    )
-    crm_soap_log_db_payload = fields.Boolean(
-        string="Guardar Payload (DB)",
-        config_parameter="crm_soap_state_hook.log.db.payload",
-        default=True,
-    )
-    crm_soap_log_db_response = fields.Boolean(
-        string="Guardar Respuesta (DB)",
-        config_parameter="crm_soap_state_hook.log.db.response",
-        default=True,
-    )
+          <h3 class="mt24">Logging en Base de Datos</h3>
+          <div class="row mt8">
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_log_db_enable"/>
+              <div><field name="crm_soap_log_db_enable"/></div>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_log_db_payload"/>
+              <div><field name="crm_soap_log_db_payload"/></div>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="crm_soap_log_db_response"/>
+              <div><field name="crm_soap_log_db_response"/></div>
+            </div>
+          </div>
+
+          <div class="mt16 text-muted">
+            <p>El <code>Riepedid</code> se toma de <code>x_studio_solicitud</code> en la oportunidad. <br/>
+               <code>LogicaCambioEstado</code> por defecto: <b>U</b> (según el WSDL acepta X/U/M).</p>
+          </div>
+        </div>
+      </xpath>
+    </field>
+  </record>
+</odoo>

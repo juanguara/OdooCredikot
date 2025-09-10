@@ -1,0 +1,26 @@
+# http://192.168.126.98:8080/aRiesgoSeguimientoMsgAdd_2_WS.aspx?WSDL
+import requests
+url = 'http://119.8.77.187:8080/aRiesgoSeguimientoMsgAdd_2_WS.aspx'
+payload = """<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="GX">
+  <SOAP-ENV:Body>
+    <ns1:RiesgoSeguimientoMsgAdd_2_WS.Execute>
+      <ns1:Usucod>38</ns1:Usucod>
+      <ns1:Riepedid>7738196</ns1:Riepedid>
+      <ns1:Riepedinfrespcod_nuevo>DE</ns1:Riepedinfrespcod_nuevo>
+      <ns1:Riepedsegrmensaje>PRUEBA</ns1:Riepedsegrmensaje>
+      <ns1:LogicaCambioEstado>U</ns1:LogicaCambioEstado>
+    </ns1:RiesgoSeguimientoMsgAdd_2_WS.Execute>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>""".encode('utf-8')
+
+headers = {
+  'Content-Type': 'text/xml; charset=utf-8',
+  'SOAPAction': 'GX#RiesgoSeguimientoMsgAdd_2_WS.Execute',
+  'User-Agent': 'Odoo/18 SOAP Hook'
+}
+resp = requests.post(url, data=payload, headers=headers, timeout=15)
+resp.status_code, resp.text[:800]
+
+
+env['ir.module.module'].search([('name','=','crm_ws_state')]).button_immediate_uninstall()
